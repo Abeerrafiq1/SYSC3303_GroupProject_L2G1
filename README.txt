@@ -12,11 +12,11 @@ Project Iteration 4 - Adding Error Detection and Correction
 - PURPOSE
 
 The purpose of this iteration was to modify our code to detect and handle faults. We have added timing events so 
-that if the timer goes off (either, the elevator is stuck between floors, or the arrival sensor at a floor has failed), 
-then the system assumes that this is a fault. Similarly, the system  should detect whether a door opens or not, 
-or is stuck open. A door which has not closed should be regarded as a transient fault, so the system
-should be able to handle this situation gracefully. However, the floor timer fault should be
-regarded as a hard fault and should shut down the corresponding elevator.
+that if the timer goes off (either, the elevator is stuck between floors, or the arrival sensor at a 
+floor has failed), then the system assumes that this is a fault. Similarly, the system  should detect 
+whether a door opens or not, or is stuck open. A door which has not closed should be regarded as a 
+transient fault, so the system should be able to handle this situation gracefully. However, the 
+floor timer fault should be regarded as a hard fault and should shut down the corresponding elevator.
 
 - BREAKDOWN OF RESPONSIBILITIES
 
