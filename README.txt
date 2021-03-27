@@ -7,37 +7,26 @@ Group 1 Members
   - Hasan Baig
   - Rutvik Shah
 
-Project Iteration 3 - Multiple Cars and System Distribution
+Project Iteration 4 - Adding Error Detection and Correction
 
 - PURPOSE
 
-The purpose of this iteration is to split the system up into three separate programs that can run on 
-three separate computers and communicate with each other using UDP. The Scheduler is now be used to coordinate 
-the movement of cars such that each car carries roughly the same number of passengers as all of the others and 
-so that the waiting time for passengers at floors is minimized. The state machines for each car executes
-independently of each other, but they share their position with the scheduler. The scheduler will choose which 
-elevator is used to service a given request.
+The purpose of this iteration was to modify our code to detect and handle faults. We have added timing events so 
+that if the timer goes off (either, the elevator is stuck between floors, or the arrival sensor at a floor has failed), 
+then the system assumes that this is a fault. Similarly, the system  should detect whether a door opens or not, 
+or is stuck open. A door which has not closed should be regarded as a transient fault, so the system
+should be able to handle this situation gracefully. However, the floor timer fault should be
+regarded as a hard fault and should shut down the corresponding elevator.
 
 - BREAKDOWN OF RESPONSIBILITIES
 
-  Abeer 
-  -> Class Diagram
-  Emma
-    -> Creating UDP communication between subsystems, created the Network class to simplify send, receive and rpc_send
-    -> Implemented the algorithm in the scheduler to determine which elevator will serivce which request
-    -> Implemented the setup coordination between the ElevatorSubsystem, FloorSubsystem and Scheduler
-    -> Modified SchedulerStateMachineTest JUnit test to send mock data over UDP to scheduler
-    -> Created ElevatorSubsystem to control multiple elevators
-    -> Created FloorSubsystem to control multiple floors and send request to scheduler with required delay
-  Alden + Hasan + Rutvik
-    -> elevatorSubsystem and related classes
-    -> Information.java
-    -> ElevatorState.java and related classes
-    -> Sequence Diagram
-    -> Overall State Diagram
-    -> Elevator State Diagram
-    -> floorSubsystem and related classes
-    
+     Emma + Abeer
+  -> Implementing elevator Fault Timer to ensure elevator goes out of order if no arrival is detected
+  -> SchedulerStateMachineTest.java (tests for elevatorFaultMonitor.java)
+  -> Hard Fault Timing Diagram
+     Alden + Hasan + Rutvik
+
+
 - FILE NAMES
 
 DirectionLamp.java
@@ -111,6 +100,9 @@ SchedulerStateMachine.java
 	   the scheduler
 SchedulerStateMachineTest.java
 	-> This test class tests the state transitions of the state machine with how it interprets test data.
+ElevatorFaultMonitor.java
+	-> This class implements a fault timer that ensures that if the scheduler does not receive a arrival
+	sensor message on time for a elevator, then that elevator is out of order.
 SchedulerTest.java
 	-> A jUNIT test class to test the methods of the Scheduler class. Currently empty
 
